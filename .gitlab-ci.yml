@@ -7,7 +7,6 @@ services:
 variables:
     IMAGE_TAG: louis6docker/react-app:$CI_COMMIT_TAG
 before_script:
-  - yum install gnupg2 pass
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
 test:
   stage: build
