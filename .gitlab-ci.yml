@@ -5,11 +5,22 @@ services:
   - docker:dind
 
 before_script:
-  - docker build -t louis6docker/react-app -f Dockerfile.dev .
+  - docker login -u "louis6docker" -p "f9q_-CxfygH(=HC" louis6docker/react-app
 
 test:
   stage: build
   script:
+    - docker build -t louis6docker/react-app -f Dockerfile.dev .
     - docker run -e CI=true louis6docker/react-app npm run test -- --coverage
   only:
-    - master
+    - develop
+
+prod:
+    stage: build
+    script:
+      - docker build -t louis6docker/react-app .
+      - docker push  louis6docker/react-app 
+    only:
+      - production
+      - master
+
