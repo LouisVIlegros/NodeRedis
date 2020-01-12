@@ -4,22 +4,21 @@ image: docker:latest
 services:
   - docker:dind
 
-before_script:
-  - docker login -u "$DOCKER_USR" -p "$DOCKER_PSWD"
 
 test:
   stage: build
   script:
     - docker build -t louis6docker/react-app -f Dockerfile.dev .
     - docker run -e CI=true louis6docker/react-app npm run test -- --coverage
+
   only:
     - develop
 
 prod:
     stage: build
     script:
-      - docker build -t louis6docker/react-app .
-      - docker push  louis6docker/react-app 
+      - docker build -t registry.gitlab.com/louis6legros/react_app .
+      - docker push registry.gitlab.com/louis6legros/react_app
     only:
       - production
       - master
