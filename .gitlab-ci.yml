@@ -5,7 +5,7 @@ services:
   - docker:dind
 
 before_script:
-  - docker login -u "louis6docker" -p "f9q_-CxfygH(=HC" louis6docker/react-app
+  - cat ../dockerpswd.txt | docker login -u "louis6docker" --password-stdin louis6docker/react-app
 
 test:
   stage: build
