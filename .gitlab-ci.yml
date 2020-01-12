@@ -4,9 +4,6 @@ image: docker:latest
 services:
   - docker:dind
 
-before_script:
-  - docker login registry.gitlab.com
-
 test:
   stage: build
   script:
