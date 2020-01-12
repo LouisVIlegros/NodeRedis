@@ -5,7 +5,7 @@ services:
   - docker:dind
 
 before_script:
-  - docker login -u "$DOCKER_USR" --p "$DOCKER_PSWD"
+  - docker login -u "$DOCKER_USR" -p "$DOCKER_PSWD"
 
 test:
   stage: build
