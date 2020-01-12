@@ -3,13 +3,16 @@ image: docker:latest
 
 services:
   - docker:dind
+
+variables:
+    IMAGE_TAG: louis6docker/react-app:$CI_COMMIT_TAG
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 test:
   stage: build
   script:
-    - docker build -t louis6docker/react-app -f Dockerfile.dev .
-    - docker run -e CI=true louis6docker/react-app npm run test -- --coverage
+    - docker build -t $IMAGE_TAG -f Dockerfile.dev .
+    - docker run -e CI=true $IMAGE_TAG npm run test -- --coverage
 
   only:
     - develop
@@ -17,8 +20,8 @@ test:
 prod:
     stage: build
     script:
-      - docker build -t registry.gitlab.com/louis6legros/react_app:latest .
-      - docker push registry.gitlab.com/louis6legros/react_app:latest
+      - docker build -t $IMAGE_TAG .
+      - docker push $IMAGE_TAG
     only:
       - production
       - master
