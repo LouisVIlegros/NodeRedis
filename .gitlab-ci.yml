@@ -1,28 +1,15 @@
-image : docker
+# Official docker image.
+image: docker:latest
 
-services : 
-    - docker: dind
+services:
+  - docker:dind
 
-stages :
-    - test
-    - deploy
+before_script:
+  - docker build -t louis6docker/react-app -f Dockerfile.dev .
 
-test : 
-    stage : test
-    #specify in which branch this will triggers 
-    only :
-        - develop
-        - production
-    script :
-        - echo run tests in this section
-
-step-deploy-prod:
-    stage : deploy
-    only :
-        - production
-    script :
-        - sudo apt-get install -y python-pip
-        - pip install docker-compose
-        - docker-compose up -d --build
-    environement : production
-    when : manual
+test:
+  stage: build
+  script:
+    - docker run -e CI=true louis6docker/react-app npm run test -- --coverage
+  only:
+    - master
