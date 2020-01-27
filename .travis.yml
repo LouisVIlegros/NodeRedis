@@ -8,4 +8,14 @@ before_install :
 scirpt :
     - docker run -e CI=true louis6docker/noderedis npm run test -- --coverage
 
-
+deploy :
+    provider : elasticbeanstalk
+    region : "eu-west-3"
+    app : "docker-node"
+    env : "DockerNode-env"
+    bucket_name : "elasticbeanstalk-eu-west-3-704736788371"
+    bucket_path: "docker-node"
+    on : 
+        branch : master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
